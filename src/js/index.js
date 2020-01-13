@@ -167,11 +167,12 @@ $(document).ready(function () {
     * Get readme of awesome repo
     **/
     if (!isAwesome) {
-      var originRepoHTML = '<a href="' + repoURL + '" class="origin-repo-btn" target="_blank">View On <i class="fa fa-github"></i></a><a href="https://github.com/lockys/awesome-search/issues/new" target="_blank" class="origin-repo-btn"><i class="fa fa-exclamation-circle"></i> This Repo Has Some Issues</a><br/><br/>';
+      var originRepoHTML = '<a href="' + repoURL + '" class="origin-repo-btn" target="_blank">View on <i class="fa fa-github"></i></a><a href="https://github.com/lockys/awesome-search/issues/new" target="_blank" class="origin-repo-btn"><i class="fa fa-exclamation-circle"></i> Create an issue about this Repo</a><br/><br/>';
 
       $awesome.html('<div class="sk-spinner sk-spinner-pulse"></div>');
 
       getReadme(maintainer, repo, repoURL, originRepoHTML, processReadMe);
+      updatePageTitle(repo);
 
       $.getJSON(jsonURL, function (data) {
         var list = data;
@@ -282,6 +283,16 @@ $(document).ready(function () {
         cb(content, repoURL, originRepoHTML);
       },
     });
+  }
+
+  function updatePageTitle(repo) {
+    var formattedRepoName = repo.replace(/-/g, ' ');
+
+    formattedRepoName = formattedRepoName.split(' ').map(function(word) {
+      return word.replace(word[0], word[0].toUpperCase());
+    }).join(' ');
+
+    document.title = 'Awesome Search - ' + formattedRepoName;
   }
 
   // The Backbone router configuration.
